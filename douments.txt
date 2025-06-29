@@ -1,0 +1,130 @@
+# -----------------------------------------------------------------------------
+# Ansible Roles: Beginner Guide and Implementation Steps
+# -----------------------------------------------------------------------------
+# What is an Ansible Role?
+# - Ansible roles are a way to organize playbooks and reusable automation code.
+# - Each role has a standard structure: tasks, files, templates, handlers, vars, etc.
+# - Roles make your automation modular, reusable, and easier to maintain.
+#
+# -----------------------------------------------------------------------------
+# Steps to Implement an Ansible Role (Example: MongoDB)
+# -----------------------------------------------------------------------------
+#
+# 1. Create the Role Directory Structure
+#    - Inside your project, create a 'roles' directory if it doesn't exist.
+#    - Inside 'roles', create a directory for your role (e.g., 'mongodb').
+#    - Inside the role directory, create subdirectories:
+#        roles/
+#          mongodb/
+#            tasks/
+#            files/
+#
+# 2. Add Task Definitions
+#    - In 'roles/mongodb/tasks/', create a file named 'main.yaml'.
+#    - This file should contain a list of tasks (YAML list), NOT a playbook.
+#    - Example tasks: install packages, configure files, start services.
+#
+# 3. Add Supporting Files
+#    - Place any files you want to copy to the target machine in 'roles/mongodb/files/'.
+#    - Example: 'mongo.repo' for MongoDB repository configuration.
+#
+# 4. Reference the Role in a Playbook
+#    - In your main playbook (e.g., 'mongodb.yaml'), use the 'roles:' keyword.
+#    - Example:
+#        - name: configure mongodb component
+#          hosts: mongodb
+#          become: yes
+#          roles:
+#            - mongodb
+#
+# 5. Define Inventory
+#    - Create or update your 'inventory.ini' to define your hosts/groups.
+#    - Example:
+#        [mongodb]
+#        mongodb.example.com
+#
+# 6. Run the Playbook
+#    - Use the ansible-playbook command:
+#        ansible-playbook -i inventory.ini mongodb.yaml
+#
+# -----------------------------------------------------------------------------
+# Example Directory Structure:
+# .
+# ├── inventory.ini
+# ├── mongodb.yaml
+# └── roles
+#     └── mongodb
+#         ├── files
+#         │   └── mongo.repo
+#         └── tasks
+#             └── main.yaml
+#
+# -----------------------------------------------------------------------------
+# Key Points:
+# - Do NOT use 'hosts:', 'become:', or 'tasks:' in 'roles/mongodb/tasks/main.yaml'.
+# - Only use a list of tasks in 'main.yaml'.
+# - Use 'roles:' in your playbook to call the role.
+# - Place files to be copied in the 'files/' directory of the role.
+# -----------------------------------------------------------------------------
+
+
+Roles is a proper directory structure to write ansible playbooks, we can reuse roles. it will have tasks, vars, templates, files, handlers, etc.
+
+{"changed": false, "msg": "Could not find or access 'mongo.repo'\nSearched in:\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/tasks/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/tasks/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/mongo.repo on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+
+template --> we can keep some placeholders, you can put the values at run time
+
+file --> content inside a specific file
+
+# -----------------------------------------------------------------------------
+# Step 7: Create a Generic main.yaml to Call Any Component Role
+# -----------------------------------------------------------------------------
+# Instead of creating a separate YAML playbook for each component (mongodb, catalogue, etc.),
+# you can create a single 'main.yaml' playbook and use the 'component' variable to call any role.
+#
+# Example main.yaml:
+# -----------------------------------------------------------------------------
+# - name: configure "{{ component }}"
+#   hosts: "{{ component }}"
+#   become: yes
+#   roles:
+#     - "{{ component }}"
+#note: mention quots else error
+# -----------------------------------------------------------------------------
+# How to Use:
+# -----------------------------------------------------------------------------
+# 1. Run the playbook with the desired component using the '-e' flag to set the variable:
+#      ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+#    (Replace 'mongodb' with any other component name as needed.)
+#
+# 2. This will:
+#    - Target the host group named after the component (from inventory.ini)
+#    - Run the role with the same name as the component
+#
+# -----------------------------------------------------------------------------
+# Why is this Useful?
+# -----------------------------------------------------------------------------
+# - Reduces duplication: Only one playbook file needed for all components.
+# - Easy to maintain: Add new roles and inventory groups, and reuse the same playbook.
+# - Flexible: Just change the 'component' variable to deploy/configure any service.
+#
+# -----------------------------------------------------------------------------
+# Example Directory Structure:
+# .
+# ├── inventory.ini
+# ├── main.yaml         # <--- This file
+# └── roles
+#     └── mongodb
+#         ├── files
+#         │   └── mongo.repo
+#         └── tasks
+#             └── main.yaml
+#     └── catalogue
+#         └── tasks
+#             └── main.yaml
+#     ... (other roles)
+# -----------------------------------------------------------------------------
+# Next Steps:
+# - Add/modify roles for each component as needed.
+# - Use the same main.yaml to deploy any component by changing the 'component' variable.
+# -----------------------------------------------------------------------------

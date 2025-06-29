@@ -1,0 +1,82 @@
+# create role for mongodeb 
+
+
+#Step1: create dir roles then > mongodb dir
+# step 2: steps this guys using *roles* > then *mongodb* <folder> in roles >
+# step :3 then *tasks* in mongodb dir > tasks dir default it take main.yaml
+# then files for mongo.repo
+      #       src: mongo.repo before just create file now
+# step 4: we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
+#file --> content inside a specific file
+# files     <file-name> --> you can keep all the files required here 
+# run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
+
+#  after mongodb steps instead of old  steps ,continue this new one ,let me name as 7th steps created as main.yaml
+ # instead of creating diff .yaml <ex:mongodb.yaml> for  all components one .main.yaml  
+  # one enough to create a main.yaml file and call all the components in the same file
+  
+  # run
+  # ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+
+  # -----------------------------------------------------------------------------
+# Step 7: Use main.yaml to Call Any Component Role (Short Steps)
+# -----------------------------------------------------------------------------
+# 1. Create a single main.yaml playbook to call any component role using the 'component' variable.
+# 2. Run with: ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+# 3. This targets the group and role named after the component.
+# 4. Add/modify roles for each component as needed in the roles/ directory.
+# 5. Refer to rolesAnsibleRoboshop/documents.txt for detailed steps and explanations.
+# -----------------------------------------------------------------------------
+# Example main.yaml:
+# - name: configure "{{ component }}"
+#   hosts: "{{ component }}"
+#   become: yes
+#   roles:
+#     - "{{ component }}"
+# -----------------------------------------------------------------------------
+# For more info, see: rolesAnsibleRoboshop/documents.txt
+# -----------------------------------------------------------------------------
+
+# after step 8 in roles dir create catalogue dir then inside it tass dir creatte main.yaml copy all the steps ansible here 
+#short cut to remove space ctrl all shift tab
+
+ nexstep 8  there common steps here o cretae common dir for common execution steps
+ tasks from one role to another thats from catalogue to common dir appsetup.yaml 
+  include role name of the tasks and task from 
+  
+- name: app setup 
+  include_role:
+    name: common
+    tasks_from: appsetup
+
+    then did for nodejs.yaml same steps common dir task dir nodejs.yaml
+
+
+    next for systemd 
+    for mongo.repo in catalogue put files 
+    then catalogue service crate dir of template then name catalogue.service.j2
+    follows jinja2 formatting, we can keep some placeholders, actual values will be provided through variables at runtime.
+notes -----
+tasks
+	main.yaml --> playbook related tasks are her
+files
+	<file-name> --> you can keep all the files required here
+templates
+	<template-file> --> we can keep all the templates with placeholders here. usually we follow jinja2 templating, variables values can be supplied
+vars
+	main.yaml --> all variables required for roles can be kept here.
+handlers --> handlers are notifiers in ansible. when there is a change in something if you want to notify other task we can use handlers. for example change in nginx configure can notify restart nginx task in handlers
+	main.yaml
+
+step 9 explain how the connetion work indetail for begiiner easy to understand 
+      then catalogue.service.j2 name it {{ MONGODB_HOST }}
+      the variable places in catalogur dir inside it creat vars dir 
+      MONGODB_Hosts: mongodb.srivenkata.shop explain this how?
+      here i did not undertand follow of fetch varble from var dir to template dir 
+      .j2 to main catalogue dir then to common system.yal the fokloow getting varible how?
+      from this - name: set up systemd
+  include_role: 
+    name: common
+    tasks_from: systemd
+
+how it detect perfect var able fetch

@@ -4,8 +4,30 @@
   roles:
   - "{{ component}}"
 
- #  afte# mongodeb steps insted this steps continue let me name as 7th steps created main.yaml# insted of creatinf diff .yaml fall all compents one 
+ #  after mongodb steps instead of old  steps ,continue this new one ,let me name as 7th steps created as main.yaml
+ # instead of creating diff .yaml <ex:mongodb.yaml> for  all components one .main.yaml  
   # one enough to create a main.yaml file and call all the components in the same file
   
   # run
   # ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+
+  # -----------------------------------------------------------------------------
+# Step 7: Use main.yaml to Call Any Component Role (Short Steps)
+# -----------------------------------------------------------------------------
+# 1. Create a single main.yaml playbook to call any component role using the 'component' variable.
+# 2. Run with: ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+# 3. This targets the group and role named after the component.
+# 4. Add/modify roles for each component as needed in the roles/ directory.
+# 5. Refer to rolesAnsibleRoboshop/documents.txt for detailed steps and explanations.
+# -----------------------------------------------------------------------------
+# Example main.yaml:
+# - name: configure "{{ component }}"
+#   hosts: "{{ component }}"
+#   become: yes
+#   roles:
+#     - "{{ component }}"
+# -----------------------------------------------------------------------------
+# For more info, see: rolesAnsibleRoboshop/documents.txt
+# -----------------------------------------------------------------------------
+
+# after step 8 create 

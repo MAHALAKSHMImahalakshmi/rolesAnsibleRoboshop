@@ -1,0 +1,72 @@
+
+- name: app setup 
+  include_role:
+    name: common
+    tasks_from: appsetup
+
+
+
+- name: set up nodejs
+  include_role: 
+    name: common
+    tasks_from: nodejs
+
+    # this module thinks file exist on ansible control server, needs to extract on to remote machine
+# remote_src: yes means files already exist in catalogue server eror i made and learnt
+
+
+
+- name: copy mongodb repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install mongodb
+  ansible.builtin.dnf:
+    name: mongodb-org
+    state: present
+
+- name: check products loaded or not
+  ansible.builtin.command: mongosh --host mongodb.srivenkata.shop --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+  register: catalogue_output
+  
+#  Difference Between `command` and `shell` in Ansible:
+#
+# The `command` module is safer and should be used for simple commands
+# that do not require shell features like pipes (|), redirection (<, >), or chaining (&&).
+#
+# The `shell` module should be used when your command needs shell-specific features,
+# such as running multiple commands together, using wildcards (*), or redirecting input/output.
+#
+# The use of `command` whenever possible, because it avoids shell injection risks.
+# The  use of `shell` only when needed for more complex operations.
+
+
+- name: print catalogue output
+  ansible.builtin.debug:
+    msg: "{{ catalogue_output }}"
+
+- name: load products
+  ansible.builtin.shell: mongosh --host mongodb.srivenkata.shop < /app/db/master-data.js
+  when: catalogue_output.stdout | int < 0
+# error faced here output stout -1 in string coverted int using pipeline 
+#-1 indicates less than zero then not loaded products
+#then check cli 
+# mongosh --host mongodb.srivenkata.shop
+#show dbs
+#use catalogue
+#show collections
+#db.products.find()
+  
+- name: set up systemd
+  include_role: 
+    name: common
+    tasks_from: systemd.yaml
+
+
+
+
+
+
+
+
