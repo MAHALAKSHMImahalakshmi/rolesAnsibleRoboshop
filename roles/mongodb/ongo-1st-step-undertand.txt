@@ -1,27 +1,3 @@
-
-- name: configure mongodb component 
-  become: yes
-  hosts: mongodb
-  # instead of tasks I am giving roles so creating directory role 
-  roles: # this will automatically load a folder called roles in curent working dir
-    - mongodb
-
-
-
-# create role for mongodeb 
-
-
-#Step1: create dir roles then > mongodb dir
-# step 2: steps this guys using *roles* > then *mongodb* <folder> in roles >
-# step :3 then *tasks* in mongodb dir > tasks dir default it take main.yaml
-# then files for mongo.repo
-      #       src: mongo.repo before just create file now
-# step 4: we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
-#file --> content inside a specific file
-# files     <file-name> --> you can keep all the files required here 
-# run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
-
-
 # -----------------------------------------------------------------------------
 # Ansible Roles: Beginner Guide and Implementation Steps
 # -----------------------------------------------------------------------------
@@ -90,3 +66,12 @@
 # - Use 'roles:' in your playbook to call the role.
 # - Place files to be copied in the 'files/' directory of the role.
 # -----------------------------------------------------------------------------
+
+
+Roles is a proper directory structure to write ansible playbooks, we can reuse roles. it will have tasks, vars, templates, files, handlers, etc.
+
+{"changed": false, "msg": "Could not find or access 'mongo.repo'\nSearched in:\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/tasks/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/roles/mongodb/tasks/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/files/mongo.repo\n\t/home/ec2-user/ansible-roboshop-roles/mongo.repo on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+
+template --> we can keep some placeholders, you can put the values at run time
+
+file --> content inside a specific file

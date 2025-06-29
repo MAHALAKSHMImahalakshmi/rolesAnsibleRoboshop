@@ -1,0 +1,11 @@
+- name: configure "{{ component}}"
+  hosts: "{{ component}}"
+  become: yes
+  roles:
+  - "{{ component}}"
+
+ #  afte# mongodeb steps insted this steps continue let me name as 7th steps created main.yaml# insted of creatinf diff .yaml fall all compents one 
+  # one enough to create a main.yaml file and call all the components in the same file
+  
+  # run
+  # ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
