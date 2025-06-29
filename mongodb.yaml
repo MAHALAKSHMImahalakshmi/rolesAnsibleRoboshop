@@ -14,3 +14,5 @@
 # create dir roles then > mongodb dir
 # steps this guys using *roles* > then *mongodb* <folder> in roles >
 # then *tasks* in mongodb dir > tasks dir default it take main.yaml
+
+# run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
