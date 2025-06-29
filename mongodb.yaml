@@ -1,0 +1,16 @@
+# create role for mongodeb 
+- name: configure mongodb component 
+  become: yes
+  hosts: mongodb
+  # instead of tasks I am giving roles so creating directory role 
+  roles: # this will automatically load a folder called roles in curent working dir
+  - mongodb
+
+
+
+
+
+
+# create dir roles then > mongodb dir
+# steps this guys using *roles* > then *mongodb* <folder> in roles >
+# then *tasks* in mongodb dir > tasks dir default it take main.yaml
