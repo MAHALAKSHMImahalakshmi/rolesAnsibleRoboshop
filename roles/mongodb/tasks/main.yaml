@@ -1,34 +1,32 @@
-- name: configuring mongodb server
-  hosts: mongodb
-  become: yes
-  tasks:
-  - name: copy mongodb repo
-    ansible.builtin.copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+- name: copy mongodb repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install mongodb
+  ansible.builtin.dnf:
+    name: mongodb-org
+    state: present
+
+- name: start and enable service
+  ansible.builtin.service:
+    name: mongod 
+    state: started
+    enabled: yes
+
+- name: Replace old host with new one from 127.0.0.1 to 0.0.0.0
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: restart the service
+  ansible.builtin.service:
+    name: mongod
+    state: restarted
+# copy pasted all the ansible tasks mongodb.yaml automation thing 
+
 #       src: mongo.repo before just create file now
 # we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
 #file --> content inside a specific file
 # files     <file-name> --> you can keep all the files required here 
-  - name: Install mongodb
-    ansible.builtin.dnf:
-      name: mongodb-org
-      state: present
-
-  - name: start and enable service
-    ansible.builtin.service:
-      name: mongod 
-      state: started
-      enabled: yes
-
-  - name: Replace old host with new one from 127.0.0.1 to 0.0.0.0
-    ansible.builtin.replace:
-     path: /etc/mongod.conf
-     regexp: '127.0.0.1'
-     replace: '0.0.0.0'
-
-  - name: restart the service
-    ansible.builtin.service:
-      name: mongod
-      state: restarted
-# copy pasted all the ansible tasks mongodb.yaml automation thing 

@@ -11,8 +11,12 @@
 # create role for mongodeb 
 
 
-# create dir roles then > mongodb dir
-# steps this guys using *roles* > then *mongodb* <folder> in roles >
-# then *tasks* in mongodb dir > tasks dir default it take main.yaml
-
+#Step1: create dir roles then > mongodb dir
+# step 2: steps this guys using *roles* > then *mongodb* <folder> in roles >
+# step :3 then *tasks* in mongodb dir > tasks dir default it take main.yaml
+# then files for mongo.repo
+      #       src: mongo.repo before just create file now
+# step 4: we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
+#file --> content inside a specific file
+# files     <file-name> --> you can keep all the files required here 
 # run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
