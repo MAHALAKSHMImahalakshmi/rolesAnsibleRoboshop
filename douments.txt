@@ -128,3 +128,110 @@ file --> content inside a specific file
 # - Add/modify roles for each component as needed.
 # - Use the same main.yaml to deploy any component by changing the 'component' variable.
 # -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Step 8: Using Common Roles and Task Includes
+# -----------------------------------------------------------------------------
+# - Sometimes, multiple components need to perform the same setup steps (e.g., app setup, systemd setup).
+# - To avoid repeating code, create a 'common' role inside the roles directory.
+# - Place shared tasks in roles/common/tasks/ (e.g., appsetup.yaml,nodejs.yaml, systemd.yaml).
+# - In your component's main.yaml (e.g., roles/catalogue/tasks/main.yaml), use 'include_role' to call these shared tasks:
+#     - name: app setup
+#       include_role:
+#         name: common
+#         tasks_from: appsetup
+#     - name: set up systemd
+#       include_role:
+#         name: common
+#         tasks_from: systemd
+# - This keeps your code DRY (Don't Repeat Yourself) and easy to maintain.
+# -----------------------------------------------------------------------------
+# Step 9: How Variables Flow from vars → Templates → Tasks (Beginner Explanation)
+# -----------------------------------------------------------------------------
+# - Each role can have a 'vars' directory (roles/catalogue/vars/main.yaml) to define variables.
+# - Example: roles/catalogue/vars/main.yaml
+#     MONGODB_HOST: mongodb.srivenkata.shop
+# - In your templates (e.g., roles/catalogue/templates/catalogue.service.j2), use variables with Jinja2 syntax:
+#     [Service]
+#     Environment=MONGODB_HOST={{ MONGODB_HOST }}
+# - When a task uses the template module to deploy this file, Ansible automatically replaces {{ MONGODB_HOST }} with the value from vars/main.yaml.
+# - Example task in roles/catalogue/tasks/main.yaml:
+#     - name: Deploy catalogue systemd service
+#       ansible.builtin.template:
+#         src: catalogue.service.j2
+#         dest: /etc/systemd/system/catalogue.service
+# - Variable resolution order: vars/main.yaml → used in templates → referenced in tasks.
+# - If you include another role (e.g., common), variables defined in the current role are available to the included tasks, unless overridden.
+# -----------------------------------------------------------------------------
+# How does Ansible know which variable to use?
+# - Ansible automatically loads variables from the current role's vars/main.yaml.
+# - When rendering a template or running a task, it looks for the variable in this order:
+#   1. Extra vars (-e on the command line)
+#   2. Task vars
+#   3. Block vars
+#   4. Role and include vars
+#   5. Inventory vars
+#   6. Play vars
+#   7. Host facts
+#   8. Registered vars
+#   9. Set_facts
+#   10. Default vars
+# - So, if you define MONGODB_HOST in roles/catalogue/vars/main.yaml, it is available in all tasks and templates in that role.
+# -----------------------------------------------------------------------------
+# Example Flow:
+# - roles/catalogue/vars/main.yaml: defines MONGODB_HOST
+# - roles/catalogue/templates/catalogue.service.j2: uses {{ MONGODB_HOST }}
+# - roles/catalogue/tasks/main.yaml: deploys the template
+# - If a task includes another role (e.g., common), variables are inherited unless overridden.
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Variable and Task Flow: From main.yaml to Template Variable Rendering
+# -----------------------------------------------------------------------------
+# 1. main.yaml (Playbook)
+#    - You run: ansible-playbook -i inventory.ini -e "component=catalogue" main.yaml
+#    - This calls the 'catalogue' role for the 'catalogue' host group.
+#
+# 2. roles/catalogue/tasks/main.yaml
+#    - Contains tasks for the catalogue component.
+#    - Includes shared/common tasks using:
+#        - name: set up systemd
+#          include_role:
+#            name: common
+#            tasks_from: systemd
+#
+# 3. roles/common/tasks/systemd.yaml
+#    - Contains tasks to set up systemd services, often using the template module.
+#    - Example:
+#        - name: Deploy catalogue systemd service
+#          ansible.builtin.template:
+#            src: catalogue.service.j2
+#            dest: /etc/systemd/system/catalogue.service
+#
+# 4. roles/catalogue/templates/catalogue.service.j2
+#    - Jinja2 template file for the systemd service.
+#    - Uses variables like {{ MONGODB_HOST }}.
+#
+# 5. roles/catalogue/vars/main.yaml
+#    - Defines variables for the catalogue role, e.g.:
+#        MONGODB_HOST: mongodb.srivenkata.shop
+#
+# 6. Variable Resolution
+#    - When the template is rendered, Ansible looks for {{ MONGODB_HOST }} in the current role's vars/main.yaml.
+#    - The value is substituted into the template and deployed to the target host.
+#
+# -----------------------------------------------------------------------------
+# Visual Flow:
+
+#
+# main.yaml (playbook)
+#   ↓
+# roles/catalogue/tasks/main.yaml
+#   ↓ (include_role)
+# roles/common/tasks/systemd.yaml
+#   ↓ (template module)
+# roles/catalogue/templates/catalogue.service.j2
+#   ↑ (uses variable)
+# roles/catalogue/vars/main.yaml
+# -----------------------------------------------------------------------------
+# This flow ensures variables are available to templates and tasks, even when including roles.
+# -----------------------------------------------------------------------------

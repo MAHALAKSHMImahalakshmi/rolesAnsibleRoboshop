@@ -16,11 +16,39 @@
 
 - name: download "{{ component }}" code
   ansible.builtin.get_url:
-    url: https://roboshop-artifacts.s3.amazonaws.com/"{{ component }}"-v3.zip 
-    dest: /tmp/"{{ component }}".zip
+    url: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip" 
+    dest: "/tmp/{{ component }}.zip"
 
 - name: extract "{{ component }}" code
   ansible.builtin.unarchive:
-    src: /tmp/"{{ component }}".zip
+    src: "/tmp/{{ component }}.zip"
     dest: /app
     remote_src: yes
+
+# -----------------------------------------------------------------------------
+# Note on Using Double Quotes with Ansible Variables
+# -----------------------------------------------------------------------------
+# 1. Use double quotes in YAML when you need to:
+#    - Concatenate variables with strings (e.g., in URLs or file paths)
+#    - Avoid YAML parsing errors with special characters
+#    - Example: url: "https://example.com/{{ component }}-v3.zip"
+#
+# 2. Do NOT put extra quotes inside the variable itself:
+#    - Wrong: url: https://example.com/"{{ component }}"-v3.zip
+#    - Right:  url: "https://example.com/{{ component }}-v3.zip"
+#
+# 3. In playbooks (like main.yaml), quotes are often needed around variables in keys like hosts or roles:
+#    - hosts: "{{ component }}"
+#    - roles:
+#        - "{{ component }}"
+#    - This prevents YAML parsing issues when the variable is at the start of a line or is the only value.
+#
+# 4. In tasks (like appsetup.yaml), use quotes only when needed for string concatenation or special characters:
+#    - dest: "/tmp/{{ component }}.zip"
+#    - url: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip"
+#    - Do NOT use: dest: /tmp/"{{ component }}".zip
+#
+# 5. If you add extra quotes inside the variable, the resulting string will be invalid and may cause errors (like HTTP 403 or file not found).
+# -----------------------------------------------------------------------------
+# Summary: Use quotes around the whole string if needed, but never around the variable itself inside the string.
+# -----------------------------------------------------------------------------
