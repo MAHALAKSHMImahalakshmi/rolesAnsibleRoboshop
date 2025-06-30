@@ -184,5 +184,27 @@ step 11 redis
 in roles create redisdir then 
 create tasks main.yaml then copy past content of ansible script
  then check 
-   
-      give Visual Steps: How Ansible Connects Everything for redis Deployment as frontend u gave
+   then rune
+      give Visual Steps: How Ansible Connects Everything for redis Deployment
+
+
+step 12 create user dir in roles dir then tasks for main.yaml 
+
+- name: app setup 
+  include_role:
+    name: common
+    tasks_from: appsetup
+
+
+
+- name: set up nodejs
+  include_role: 
+    name: common
+    tasks_from: nodejs
+
+- name: set up systemd
+  include_role: 
+    name: common
+    tasks_from: systemd.yaml
+    connects common dir
+    here we need to crete templates user.service.j2

@@ -338,3 +338,40 @@ file --> content inside a specific file
 # -----------------------------------------------------------------------------
 # This flow ensures that when you run the playbook, all variables, templates, and handlers are connected and executed in the right order for a safe and automated deployment.
 # -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+#
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Step 11: Visual Steps and Notes - How Ansible Connects Everything for Redis Deployment
+# -----------------------------------------------------------------------------
+# Notes for Beginners:
+# - The process for deploying Redis with Ansible roles can be simpler than frontend if you do not use templates, vars, or handlers.
+# - You organize your code into roles/redis/ with at least a tasks/main.yaml file.
+# - All logic (install, configure, start service) can be written directly in tasks/main.yaml.
+# - If you do not use templates or handlers, there is no need for templates/, vars/, or handlers/ directories in the redis role.
+# - This is common for simple components where configuration is static or handled directly in tasks.
+#
+# Visual Steps:
+#
+# 1. You run:
+#      ansible-playbook -i inventory.ini -e "component=redis" main.yaml
+#
+# 2. [main.yaml]
+#    - Targets the 'redis' group from inventory.ini
+#    - Calls the 'redis' role
+#    ↓
+# 3. [roles/redis/tasks/main.yaml]
+#    - Executes all tasks for redis (install, configure, start service, etc.)
+# -----------------------------------------------------------------------------
+# Visual Chart:
+#
+# [inventory.ini] (defines redis hosts)
+#      ↓
+# [main.yaml] (calls redis role)
+#      ↓
+# [roles/redis/tasks/main.yaml] (all logic for redis)
+# -----------------------------------------------------------------------------
+# This flow ensures that when you run the playbook for redis, all tasks are executed in the right order for a safe and automated deployment, even if you do not use templates, vars, or handlers for this component.
+# -----------------------------------------------------------------------------
+
