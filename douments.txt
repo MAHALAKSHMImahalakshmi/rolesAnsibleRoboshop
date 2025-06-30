@@ -375,3 +375,105 @@ file --> content inside a specific file
 # This flow ensures that when you run the playbook for redis, all tasks are executed in the right order for a safe and automated deployment, even if you do not use templates, vars, or handlers for this component.
 # -----------------------------------------------------------------------------
 
+ -----------------------------------------------------------------------------
+# Step 12: Visual Steps and Notes - How Ansible Connects Everything for User Deployment
+# -----------------------------------------------------------------------------
+# Notes for Beginners:
+# - The user component uses common roles for app setup, nodejs, and systemd.
+# - You organize your code into roles/user/ with subfolders for tasks, templates, and vars.
+# - Variables for user (like REDIS_HOST, MONGODB_HOST) are defined in vars/main.yaml and used in templates.
+# - The template module copies user.service.j2 to the server, and if it changes, a handler can restart the user service.
+# - This ensures configuration changes are applied safely and only when needed.
+#
+# Visual Steps:
+#
+# 1. You run:
+#      ansible-playbook -i inventory.ini -e "component=user" main.yaml
+#
+# 2. [main.yaml]
+#    - Targets the 'user' group from inventory.ini
+#    - Calls the 'user' role
+#    ↓
+# 3. [roles/user/tasks/main.yaml]
+#    - Includes common roles for appsetup, nodejs, and systemd
+#    - Uses the template module to copy user.service.j2 if needed
+#    - Uses 'notify' to trigger handler if config changes
+#    ↓
+# 4. [roles/user/templates/user.service.j2]
+#    - Jinja2 template for user systemd service
+#    - Uses variables like {{ REDIS_HOST }}, {{ MONGODB_HOST }} from vars
+#    ↑
+# 5. [roles/user/vars/main.yaml]
+#    - Defines all variables used in the template (e.g., REDIS_HOST, MONGODB_HOST)
+#    ↓ (if config file changed)
+# 6. [roles/user/handlers/main.yaml] (optional)
+#    - Handler runs to restart user service if needed
+# -----------------------------------------------------------------------------
+# Visual Chart:
+#
+# [inventory.ini] (defines user hosts)
+#      ↓
+# [main.yaml] (calls user role)
+#      ↓
+# [roles/user/tasks/main.yaml] (includes common roles, template + notify)
+#      ↓
+# [roles/user/templates/user.service.j2] (uses variables)
+#      ↑
+# [roles/user/vars/main.yaml] (defines variables)
+#      ↓ (if changed)
+# [roles/user/handlers/main.yaml] (restarts user service)
+# -----------------------------------------------------------------------------
+# This flow ensures that when you run the playbook for user, all variables, templates, and handlers are connected and executed in the right order for a safe and automated deployment.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Step 13: Visual Steps and Notes - How Ansible Connects Everything for Cart Deployment
+# -----------------------------------------------------------------------------
+# Notes for Beginners:
+# - The cart component follows the same structure and steps as the user component.
+# - You organize your code into roles/cart/ with subfolders for tasks, templates, and vars.
+# - Variables for cart (like REDIS_HOST, CATALOGUE_HOST) are defined in vars/main.yaml and used in templates.
+# - The template module copies cart.service.j2 to the server, and if it changes, a handler can restart the cart service.
+#
+# Visual Steps:
+#
+# 1. You run:
+#      ansible-playbook -i inventory.ini -e "component=cart" main.yaml
+#
+# 2. [main.yaml]
+#    - Targets the 'cart' group from inventory.ini
+#    - Calls the 'cart' role
+#    ↓
+# 3. [roles/cart/tasks/main.yaml]
+#    - Includes common roles for appsetup, nodejs, and systemd
+#    - Uses the template module to copy cart.service.j2 if needed
+#    - Uses 'notify' to trigger handler if config changes
+#    ↓
+# 4. [roles/cart/templates/cart.service.j2]
+#    - Jinja2 template for cart systemd service
+#    - Uses variables like {{ REDIS_HOST }}, {{ CATALOGUE_HOST }} from vars
+#    ↑
+# 5. [roles/cart/vars/main.yaml]
+#    - Defines all variables used in the template (e.g., REDIS_HOST, CATALOGUE_HOST)
+#    ↓ (if config file changed)
+# 6. [roles/cart/handlers/main.yaml] (optional)
+#    - Handler runs to restart cart service if needed
+# -----------------------------------------------------------------------------
+# Visual Chart:
+#
+# [inventory.ini] (defines cart hosts)
+#      ↓
+# [main.yaml] (calls cart role)
+#      ↓
+# [roles/cart/tasks/main.yaml] (includes common roles, template + notify)
+#      ↓
+# [roles/cart/templates/cart.service.j2] (uses variables)
+#      ↑
+# [roles/cart/vars/main.yaml] (defines variables)
+#      ↓ (if changed)
+# [roles/cart/handlers/main.yaml] (restarts cart service)
+# -----------------------------------------------------------------------------
+# This flow ensures that when you run the playbook for cart, all variables, templates, and handlers are connected and executed in the right order for a safe and automated deployment.
+-----------------------------------------------------------------------------
+
+

@@ -215,4 +215,5 @@ MONGODB_HOST: mongodb.srivenkata.shop
 
 update fronetnd nginx user api then vars USER_HOST
 
-step 13 for cartsame as user steps
+step 13 for cart same as user steps
+similar steps as user 
