@@ -1,0 +1,3 @@
+CART_HOST: cart.srivenkata.shop
+USER_HOST: user.srivenkata.shop
+RABBITMQ_HOST: rabbitmq.srivenkata.shop
