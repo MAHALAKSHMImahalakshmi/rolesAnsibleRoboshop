@@ -217,3 +217,43 @@ update fronetnd nginx user api then vars USER_HOST
 
 step 13 for cart same as user steps
 similar steps as user 
+
+
+step 14 stet up mysql 
+just create roles mysql then tasks then cretae main.yaml copy conetnt and run
+
+step 15
+
+ shippingroles create dir 
+then create common systemd 
+then in commo create maven setup 
+templates and vars
+CART_HOST: cart.srivenkata.shop
+MYSQL_HOST: mysql.srivenkata.shop
+
+common maven step in common>maven.yaml 
+- name: install maven and mysql
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: installed
+  loop:
+  - maven
+  - mysql
+  
+- name: install PyMySQL and cryptography 
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    executable: pip3.9
+  loop:
+  - cryptography
+  - PyMySQL
+
+- name: install maven dependencies
+  ansible.builtin.command: mvn clean package
+  args:
+    chdir: /app
+
+- name: rename jar file
+  ansible.builtin.command: "mv target/{{ component }}-1.0.jar {{ component }}.jar"
+  args:
+    chdir: /app

@@ -5,7 +5,6 @@
     tasks_from: appsetup
 
 
-
 - name: set up nodejs
   include_role: 
     name: common
