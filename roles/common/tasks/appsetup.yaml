@@ -14,7 +14,7 @@
   # after refering ansible documents got know about user module, refered examples
     # error while executed playbook error was about  system user (non-login, lower UID) then checked with chatgpt and resolve error and learnt about one more subject  system and create_user 
 
-- name: download "{{ component }}" code
+- name: "download {{ component }} code"
   ansible.builtin.get_url:
     url: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip" 
     dest: "/tmp/{{ component }}.zip"
