@@ -1,3 +1,5 @@
 CATALOUGE_HOST: catalogue.srivenkata.shop
 USER_HOST: user.srivenkata.shop
 CART_HOST: cart.srivenkata.shop
+SHIPPING_HOST: shipping.srivenkata.shop
+PAYMENT_HOST : payment.srivenkata.shop
