@@ -208,3 +208,11 @@ step 12 create user dir in roles dir then tasks for main.yaml
     tasks_from: systemd.yaml
     connects common dir
     here we need to crete templates user.service.j2
+
+    then crete templates then vars dir copy paste user.service.js then vars na,e this two connetion 
+    REDIS_HOST: redis.srivenkata.shop
+MONGODB_HOST: mongodb.srivenkata.shop
+
+update fronetnd nginx user api then vars USER_HOST
+
+step 13 for cartsame as user steps
