@@ -1,47 +1,47 @@
-# create role for mongodeb 
+create role for mongodeb 
 
 
-#Step1: create dir roles then > mongodb dir
-# step 2: steps this guys using *roles* > then *mongodb* <folder> in roles >
-# step :3 then *tasks* in mongodb dir > tasks dir default it take main.yaml
-# then files for mongo.repo
-      #       src: mongo.repo before just create file now
-# step 4: we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
-#file --> content inside a specific file
-# files     <file-name> --> you can keep all the files required here 
-# run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
+Step1: create dir roles then > mongodb dir
+step 2: steps this guys using *roles* > then *mongodb* <folder> in roles >
+step :3 then *tasks* in mongodb dir > tasks dir default it take main.yaml
+then files for mongo.repo
+            src: mongo.repo before just create file now
+step 4: we should mention. how?  ansible will fetch files in *roles dir > *mongodb* dir > *files* dir create mongo.repo 
+file --> content inside a specific file
+files     <file-name> --> you can keep all the files required here 
+run this ansible-playbook -i  inventory.ini mongodb.yamlansible-playbook -i  inventory.ini mongodb.yaml
 
-#  after mongodb steps instead of old  steps ,continue this new one ,let me name as 7th steps created as main.yaml
- # instead of creating diff .yaml <ex:mongodb.yaml> for  all components one .main.yaml  
-  # one enough to create a main.yaml file and call all the components in the same file
+ after mongodb steps instead of old  steps ,continue this new one ,let me name as 7th steps created as main.yaml
+instead of creating diff .yaml <ex:mongodb.yaml> for  all components one .main.yaml  
+  one enough to create a main.yaml file and call all the components in the same file
   
-  # run
-  # ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+  run
+  ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
 
-  # -----------------------------------------------------------------------------
-# Step 7: Use main.yaml to Call Any Component Role (Short Steps)
-# -----------------------------------------------------------------------------
-# 1. Create a single main.yaml playbook to call any component role using the 'component' variable.
-# 2. Run with: ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
-# 3. This targets the group and role named after the component.
-# 4. Add/modify roles for each component as needed in the roles/ directory.
-# 5. Refer to rolesAnsibleRoboshop/documents.txt for detailed steps and explanations.
-# -----------------------------------------------------------------------------
-# Example main.yaml:
-# - name: configure "{{ component }}"
-#   hosts: "{{ component }}"
-#   become: yes
-#   roles:
-#     - "{{ component }}"
-# -----------------------------------------------------------------------------
-# For more info, see: rolesAnsibleRoboshop/documents.txt
-# -----------------------------------------------------------------------------
+  -----------------------------------------------------------------------------
+Step 7: Use main.yaml to Call Any Component Role (Short Steps)
+-----------------------------------------------------------------------------
+1. Create a single main.yaml playbook to call any component role using the 'component' variable.
+2. Run with: ansible-playbook -i inventory.ini -e "component=mongodb" main.yaml
+3. This targets the group and role named after the component.
+4. Add/modify roles for each component as needed in the roles/ directory.
+5. Refer to rolesAnsibleRoboshop/documents.txt for detailed steps and explanations.
+-----------------------------------------------------------------------------
+Example main.yaml:
+- name: configure "{{ component }}"
+  hosts: "{{ component }}"
+  become: yes
+  roles:
+    - "{{ component }}"
+-----------------------------------------------------------------------------
+For more info, see: rolesAnsibleRoboshop/documents.txt
+-----------------------------------------------------------------------------
 
-# after step 8 in roles dir create catalogue dir then inside it tass dir creatte main.yaml copy all the steps ansible here 
-#short cut to remove space ctrl all shift tab
+after step 8 in roles dir create catalogue dir then inside it tass dir creatte main.yaml copy all the steps ansible here 
+short cut to remove space ctrl all shift tab
 
- nexstep 8  there common steps here o cretae common dir for common execution steps
- tasks from one role to another thats from catalogue to common dir appsetup.yaml 
+nexstep 8  there common steps here o cretae common dir for common execution steps
+tasks from one role to another thats from catalogue to common dir appsetup.yaml 
   include role name of the tasks and task from 
   
 - name: app setup 
@@ -58,15 +58,15 @@
     follows jinja2 formatting, we can keep some placeholders, actual values will be provided through variables at runtime.
 notes -----
 tasks
-	main.yaml --> playbook related tasks are her
+  main.yaml --> playbook related tasks are her
 files
-	<file-name> --> you can keep all the files required here
+  <file-name> --> you can keep all the files required here
 templates
-	<template-file> --> we can keep all the templates with placeholders here. usually we follow jinja2 templating, variables values can be supplied
+  <template-file> --> we can keep all the templates with placeholders here. usually we follow jinja2 templating, variables values can be supplied
 vars
-	main.yaml --> all variables required for roles can be kept here.
+  main.yaml --> all variables required for roles can be kept here.
 handlers --> handlers are notifiers in ansible. when there is a change in something if you want to notify other task we can use handlers. for example change in nginx configure can notify restart nginx task in handlers
-	main.yaml
+  main.yaml
 
 step 9 explain how the connetion work indetail for begiiner easy to understand 
       then catalogue.service.j2 name it {{ MONGODB_HOST }}
@@ -87,7 +87,7 @@ catalogue.service.j2then there by  {{ MONGODB_HOST }} call back catalogue dir va
 next 9th step is frontend main taskscreated front dir in roles inside tasks dir main.yaml copy paste frontend ansible script then lets decide to put co mon roles files templates and handlers
 
 
- nginx conf where keep in templates because change host name while api calling reproxy concept
+nginx conf where keep in templates because change host name while api calling reproxy concept
   templates means .j2 then var dir create 
 
 CATALOUGE_HOST: catalogue.srivenkata.shop
@@ -112,10 +112,10 @@ restart
       name: nginx
       state: restarted
 if restart evertime there as downtime occureance soo 
-   [after]
-   for handlers ansible   
-   handlers --> handlers are notifiers in ansible. when there is a change in something if you want to notify other task we can use handlers. for example change in nginx configure can notify restart nginx task in handlers
-	main.yaml
+  [after]
+  for handlers ansible   
+  handlers --> handlers are notifiers in ansible. when there is a change in something if you want to notify other task we can use handlers. for example change in nginx configure can notify restart nginx task in handlers
+  main.yaml
 handles running operaton change 
 we should use notify keyword
 - name: copy roboshop nginx conf
@@ -134,4 +134,55 @@ give vizulation chart fot this topic
       name: nginx
       state: restarted
       
-      
+      show the vsiuasals steps for componet to it goes to inventory 
+      take frontend all varibles there by go fronted dir rome main.yaml 
+      then go templates there run config handles restart give 
+      stepsvisualize easy to understand beginner steps
+
+Visual Steps: How Ansible Connects Everything for Frontend Deployment
+ -----------------------------------------------------------------------------
+ 1. You run:
+    ansible-playbook -i inventory.ini -e "component=frontend" main.yaml
+
+ 2. [main.yaml]
+   - Targets the 'frontend' group from inventory.ini
+   - Calls the 'frontend' role
+   ↓
+3. [roles/frontend/tasks/main.yaml]
+   - Executes tasks for frontend
+   - Copies nginx.conf using the template module
+   - Uses 'notify' to trigger handler if config changes
+   ↓
+4. [roles/frontend/templates/nginx.conf.j2]
+   - Jinja2 template for nginx config
+   - Uses variables like {{ CATALOUGE_HOST }} from vars
+   ↑
+5. [roles/frontend/vars/main.yaml]
+   - Defines all variables used in the template (e.g., CATALOUGE_HOST, USER_HOST, etc.)
+   ↓ (if config file changed)
+6. [roles/frontend/handlers/main.yaml]
+   - Handler runs to restart nginx service
+-----------------------------------------------------------------------------
+Visual Chart:
+
+[inventory.ini] (defines frontend hosts)
+     ↓
+ [main.yaml] (calls frontend role)
+      ↓
+ [roles/frontend/tasks/main.yaml] (template + notify)
+      ↓
+ [roles/frontend/templates/nginx.conf.j2] (uses variables)
+      ↑
+ [roles/frontend/vars/main.yaml] (defines variables)
+      ↓ (if changed)
+ [roles/frontend/handlers/main.yaml] (restarts nginx)
+ -----------------------------------------------------------------------------
+ This flow ensures that when you run the playbook, all variables, templates, and handlers are connected and executed in the right order for a safe and automated deployment.
+-----------------------------------------------------------------------------
+d
+step 11 redis 
+in roles create redisdir then 
+create tasks main.yaml then copy past content of ansible script
+ then check 
+   
+      give Visual Steps: How Ansible Connects Everything for redis Deployment as frontend u gave
