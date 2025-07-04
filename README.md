@@ -162,9 +162,6 @@ For detailed flows and real-world request examples, see [`AboutProject.txt`](Abo
 
 ## Credits 🙏
 - Inspired by Roboshop microservices architecture.
-- Automation and documentation by [Your Name].
+- Automation and documentation by [https://github.com/MAHALAKSHMImahalakshmi/].
 
----
 
-## License 📄
-[MIT License](LICENSE)
