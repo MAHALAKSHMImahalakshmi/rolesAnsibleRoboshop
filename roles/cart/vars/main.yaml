@@ -1,2 +1,3 @@
-REDIS_HOST: redis.srivenkata.shop
 CATALOGUE_HOST: catalogue.srivenkata.shop
+REDIS_HOST: redis.srivenkata.shop
+

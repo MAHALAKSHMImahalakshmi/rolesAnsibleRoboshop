@@ -477,3 +477,213 @@ file --> content inside a specific file
 -----------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+# -----------------------------------------------------------------------------
+# Step 14: Setting Up MySQL Component (Beginner Guide)
+# -----------------------------------------------------------------------------
+# 1. Create a new role for MySQL:
+#    - In the roles directory, create a folder named 'mysql'.
+#    - Inside 'mysql', create a 'tasks' directory and add a 'main.yaml' file.
+#    - Copy the required Ansible tasks for installing and configuring MySQL into 'main.yaml'.
+#    - Example tasks: install MySQL, set root password, configure users/databases.
+# 2. Run the playbook:
+#    - Use: ansible-playbook -i inventory.ini -e "component=mysql" main.yaml
+#    - This will set up MySQL on the target host defined in your inventory.
+# 3. Why this step?
+#    - MySQL is needed for services like Shipping and Payment to store and retrieve structured data (orders, payments, etc.).
+#    - Setting up MySQL as a separate role keeps your project modular and reusable.
+# -----------------------------------------------------------------------------
+# Notes:
+# - Always secure your MySQL installation (set strong root password, limit remote access, etc.).
+# - Use Ansible variables for credentials and hostnames for easy configuration.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Step 15: Setting Up Shipping Component with Maven and MySQL (Beginner Guide)
+# -----------------------------------------------------------------------------
+# 1. Create a new role for Shipping:
+#    - In the roles directory, create a folder named 'shipping'.
+#    - Inside 'shipping', create a 'tasks' directory and add a 'main.yaml' file.
+#    - Add the required Ansible tasks for app setup, maven build, systemd setup, and database import.
+# 2. Common Maven Setup:
+#    - In the 'common' role, create a 'maven.yaml' in the tasks directory.
+#    - This should include tasks to install Maven, MySQL client, Python modules (PyMySQL, cryptography), build the Java app, and rename the jar file.
+#    - Use 'include_role' in shipping/tasks/main.yaml to call the common maven setup.
+# 3. Database Import:
+#    - Use the 'community.mysql.mysql_db' module to import schema and data into MySQL.
+#    - Use a loop to import multiple SQL files as needed.
+# 4. Restart Shipping Service:
+#    - After importing data, restart the shipping service to apply changes.
+# 5. Why this step?
+#    - Shipping is a Java (Maven) application that needs to be built and deployed.
+#    - It depends on MySQL for storing shipping/order data.
+#    - Using common roles for repeated steps (like Maven setup) keeps your code DRY and maintainable.
+# -----------------------------------------------------------------------------
+# Notes:
+# - Always check that MySQL is running and accessible before importing data.
+# - Use Ansible variables for database credentials and hostnames.
+# - Restarting the service ensures the app uses the latest configuration and data.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Project Flow Summary (Beginner Notes)
+# -----------------------------------------------------------------------------
+# - Each microservice (cart, user, catalogue, shipping, payment, etc.) is set up as a separate role in Ansible.
+# - Common tasks (like app setup, maven build, systemd setup) are placed in a 'common' role and included where needed.
+# - Variables (like hostnames, credentials) are defined in each role's vars directory for easy configuration.
+# - Templates (like systemd service files) use these variables to generate correct configs for each service.
+# - Handlers are used to restart services only when configuration changes.
+# - The playbook (main.yaml) is generic and can deploy any component by passing the 'component' variable.
+# - The flow for each component: inventory → playbook → role tasks → common tasks → templates/vars → handlers.
+# - This modular approach makes the project easy to maintain, scale, and troubleshoot.
+# -----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Frontend]
+   |
+   |---> [Cart Service] -----------+
+   |                               |
+   |---> [User Service]            |
+   |                               |
+   |---> [Catalogue Service]       |
+   |                               |
+   |---> [Shipping Service]        |
+   |                               |
+   |---> [Payment Service]         |
+   |                               |
+   |---> [Other APIs...]           |
+                                   |
+[Cart Service] --------------------+
+   |                               |
+   |---> [Redis]                   |
+   |---> [Catalogue Service] ------+
+                                   |
+[Catalogue Service] --------------> [MongoDB]
+[User Service] -------------------> [MongoDB]
+[Shipping Service] ---------------> [MySQL]
+[Payment Service] ----------------> [MySQL]
+[Cart Service] -------------------> [Redis]
+[All Services] -------------------> [RabbitMQ] (if used for messaging)
+
+Explanation
+Frontend talks to all backend services via API endpoints.
+Cart Service needs:
+REDIS_HOST (for session storage)
+CATALOGUE_HOST (to fetch product details)
+Catalogue Service and User Service use MONGODB_HOST.
+Shipping and Payment use MYSQL_HOST.
+RabbitMQ is used for messaging between services (if implemented).
+All hostnames (like catalogue.srivenkata.shop) are set in each service’s vars file and injected into systemd service files by Ansible.
+
+
+
+
+
+
+
+# -----------------------------------------------------------------------------
+# Common Mistake: Redis Not Connected Causes Cart Errors
+# -----------------------------------------------------------------------------
+# Mistake:
+# If the Redis microservice is not running or not connected, and you try to add an item to the cart (from the catalogue or frontend), you will get errors like "no object found" or the cart will not work. This is because the Cart service depends on Redis for session storage and cart data. If Redis is down, unreachable, or the REDIS_HOST variable is not set correctly, the Cart service cannot store or retrieve cart information, causing add-to-cart operations to fail.
+# -----------------------------------------------------------------------------
+# Clean Connection Diagram and Explanation
+# -----------------------------------------------------------------------------
+# How Roboshop Components Connect (Beginner Friendly)
+#
+# [Frontend]
+#    |
+#    |---> [Cart Service] -----------+
+#    |                               |
+#    |---> [User Service]            |
+#    |                               |
+#    |---> [Catalogue Service]       |
+#    |                               |
+#    |---> [Shipping Service]        |
+#    |                               |
+#    |---> [Payment Service]         |
+#    |                               |
+#    |---> [Other APIs...]           |
+#                                    |
+# [Cart Service] --------------------+
+#    |                               |
+#    |---> [Redis]                   |
+#    |---> [Catalogue Service] ------+
+#                                    |
+# [Catalogue Service] --------------> [MongoDB]
+# [User Service] -------------------> [MongoDB]
+# [Shipping Service] ---------------> [MySQL]
+# [Payment Service] ----------------> [MySQL]
+# [All Services] -------------------> [RabbitMQ] (if used for messaging)
+# -----------------------------------------------------------------------------
+# Why These Connections?
+# - Frontend: Sends API requests to all backend services (cart, user, catalogue, shipping, payment, etc.).
+# - Cart Service: Needs Redis for session/cart data and Catalogue for product details.
+# - Catalogue/User: Use MongoDB for storing product/user data.
+# - Shipping/Payment: Use MySQL for their data.
+# - RabbitMQ: Used for messaging between services (if implemented).
+# - All hostnames (like catalogue.srivenkata.shop) are set in each service’s vars file and injected into systemd service files by Ansible.
+#
+# This architecture allows each microservice to scale independently and makes troubleshooting easier, but it also means every dependency (like Redis) must be running and correctly configured for the system to work.
+# -----------------------------------------------------------------------------
