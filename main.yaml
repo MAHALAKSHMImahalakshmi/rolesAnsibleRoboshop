@@ -1,8 +1,8 @@
-- name: configure "{{ component}}"
-  hosts: "{{ component}}"
+- name: configure "{{ component }}"
+  hosts: "{{ component }}"
   become: yes
   roles:
-  - "{{ component}}"
+  - "{{ component }}"
 
  #  after mongodb steps instead of old  steps ,continue this new one ,let me name as 7th steps created as main.yaml
  # instead of creating diff .yaml <ex:mongodb.yaml> for  all components one .main.yaml  

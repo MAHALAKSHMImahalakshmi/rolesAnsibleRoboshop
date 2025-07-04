@@ -1,5 +1,4 @@
 
-
 - name: app setup 
   include_role:
     name: common
