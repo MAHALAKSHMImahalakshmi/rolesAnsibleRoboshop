@@ -71,10 +71,6 @@ rolesAnsibleRoboshop/ 🗂️
 ├── AboutProject.txt 📖               # Beginner-friendly architecture and flows
 ├── douments.txt 📚                   # In-depth implementation guide
 ├── README.md 📝                      # This documentation file
-├── images/ 🖼️                        # Visual screenshots and diagrams
-│   ├── Screenshot 2025-06-19 005635.png 🖼️
-│   ├── Screenshot 2025-06-19 010451.png 🖼️
-│   └── ...
 ├── roles/ 📦                         # All Ansible roles live here
 │   ├── cart/ 🛒
 │   │   ├── tasks/ 📋
