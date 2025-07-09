@@ -1,0 +1,30 @@
+- name: stop the services
+  ansible.builtin.service:
+    name: "{{ component }}"
+    state: stopped
+
+- name: Remove app dir 
+  ansible.builtin.file:
+    state: absent
+    path: /app
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /app
+    state: directory
+  
+- name: Unarchive a file -> downloaded - download application fom s3bucket then store in ec2instance remote_src because it is not local computer but in instances
+  ansible.builtin.unarchive:
+    src: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-{{ app_version }}.zip" 
+    dest: /app
+    remote_src: yes
+
+- name: Install packages based on package.json.
+  community.general.npm:
+    path: /app
+
+- name: Restart service {{ component }}
+  ansible.builtin.service:
+    name: "{{ component }}"
+    state: restarted
+ # it works for all components    

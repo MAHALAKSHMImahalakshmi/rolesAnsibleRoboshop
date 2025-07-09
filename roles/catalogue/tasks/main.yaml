@@ -29,7 +29,7 @@
 - name: check products loaded or not
   ansible.builtin.command: mongosh --host mongodb.srivenkata.shop --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
   register: catalogue_output
-  
+  ignore_errors: true
 #  Difference Between `command` and `shell` in Ansible:
 #
 # The `command` module is safer and should be used for simple commands
@@ -45,10 +45,11 @@
 - name: print catalogue output
   ansible.builtin.debug:
     msg: "{{ catalogue_output }}"
-
+  ignore_errors: true
 - name: load products
   ansible.builtin.shell: mongosh --host mongodb.srivenkata.shop < /app/db/master-data.js
   when: catalogue_output.stdout | int < 0
+  ignore_errors: true
 # error faced here output stout -1 in string coverted int using pipeline 
 #-1 indicates less than zero then not loaded products
 #then check cli 
@@ -62,8 +63,14 @@
   include_role: 
     name: common
     tasks_from: systemd.yaml
+  
 
-
+- name: app setup
+  tags:
+  - deployment
+  include_role:
+    name: common
+    tasks_from: deployment
 
 
 
