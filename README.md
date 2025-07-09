@@ -156,9 +156,6 @@ rolesAnsibleRoboshop/ 🗂️
 ```
 
 ### 🛠️ Updated Ansible Playbook Flow with Tags, Roles, and Secrets
-=======
-### 📊 Flowchart: How a Playbook Runs in This Structure
->>>>>>> 6c73f124d2b768c508bab65b712034e5815976ef
 
 ```mermaid
 flowchart TD
