@@ -21,10 +21,10 @@
 
 - name: Install packages based on package.json.
   community.general.npm:
-  path: /app
+    path: /app
 
 - name: Restart service {{ component }}
   ansible.builtin.service:
-  name: "{{ component }}"
-  state: restarted
+    name: "{{ component }}"
+    state: restarted
  # it works for all components    
