@@ -15,7 +15,7 @@
   
 - name: Unarchive a file -> downloaded - download application fom s3bucket then store in ec2instance remote_src because it is not local computer but in instances
   ansible.builtin.unarchive:
-    src: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-{{ app_version }}.zip" 
+    src: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v{{ app_version }}.zip"
     dest: /app
     remote_src: yes
 
