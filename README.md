@@ -57,103 +57,6 @@ If you want to understand exactly how to build, debug, and extend this project, 
 
 ---
 
-
-
-## Full Visual Directory Structure & Flowchart 🗂️✨
-
-Below is a detailed, emoji-rich directory structure and flowchart for everything under the `rolesAnsibleRoboshop` folder. Every major file and folder is shown with an emoji, so you can instantly see where to find and place each part of your project!
-
-```text
-rolesAnsibleRoboshop/ 🗂️
-├── inventory.ini 🗒️                  # Inventory of all hosts/groups
-├── main.yaml ▶️                      # Generic playbook to deploy any component
-├── AboutProject.txt 📖               # Beginner-friendly architecture and flows
-├── douments.txt 📚                   # In-depth implementation guide
-├── README.md 📝                      # This documentation file
-├── roles/ 📦                         # All Ansible roles live here
-│   ├── cart/ 🛒
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── cart.service.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── user/ 👤
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── user.service.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── catalogue/ 📚
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── catalogue.service.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── shipping/ 🚚
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── shipping.service.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── payment/ 💳
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── payment.service.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── frontend/ 🖥️
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── templates/ 📝
-│   │   │   └── nginx.conf.j2 🧩
-│   │   ├── vars/ 🗃️
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml 📝
-│   ├── redis/ 🧠
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── mongodb/ 🍃
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   ├── files/ 📁
-│   │   │   └── mongo.repo 📄
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   ├── mysql/ 🐬
-│   │   ├── tasks/ 📋
-│   │   │   └── main.yaml 📝
-│   │   └── handlers/ 🔄
-│   │       └── main.yaml (optional) 📝
-│   └── common/ 🔁                    # Shared logic for all roles
-│       ├── tasks/ 📋
-│       │   ├── appsetup.yaml 🛠️
-│       │   ├── maven.yaml ☕
-│       │   ├── python.yaml 🐍
-│       │   ├── systemd.yaml ⚙️
-│       │   └── ...
-│       └── handlers/ 🔄
-│           └── main.yaml (optional) 📝
-└── ...
-```
-
 ### 📊 Flowchart: How a Playbook Runs in This Structure
 
 ```mermaid
@@ -172,6 +75,7 @@ flowchart TD
     H --> G
     I --> K[Service Restarted if Needed 🚦]
 ```
+---
 
 This structure ensures:
 - 🧩 Every component is modular and easy to find.
@@ -326,4 +230,100 @@ As I advanced in my DevOps path, I unlocked several powerful Ansible concepts th
 - Inspired by Roboshop microservices architecture.
 - Automation and documentation by [https://github.com/MAHALAKSHMImahalakshmi/].
 
+
+---
+## Full Visual Directory Structure & Flowchart 🗂️✨
+
+Below is a detailed, emoji-rich directory structure and flowchart for everything under the `rolesAnsibleRoboshop` folder. Every major file and folder is shown with an emoji, so you can instantly see where to find and place each part of your project!
+
+```text
+rolesAnsibleRoboshop/ 🗂️
+├── inventory.ini 🗒️                  # Inventory of all hosts/groups
+├── main.yaml ▶️                      # Generic playbook to deploy any component
+├── AboutProject.txt 📖               # Beginner-friendly architecture and flows
+├── douments.txt 📚                   # In-depth implementation guide
+├── README.md 📝                      # This documentation file
+├── roles/ 📦                         # All Ansible roles live here
+│   ├── cart/ 🛒
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── cart.service.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── user/ 👤
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── user.service.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── catalogue/ 📚
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── catalogue.service.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── shipping/ 🚚
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── shipping.service.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── payment/ 💳
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── payment.service.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── frontend/ 🖥️
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── templates/ 📝
+│   │   │   └── nginx.conf.j2 🧩
+│   │   ├── vars/ 🗃️
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml 📝
+│   ├── redis/ 🧠
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── mongodb/ 🍃
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   ├── files/ 📁
+│   │   │   └── mongo.repo 📄
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   ├── mysql/ 🐬
+│   │   ├── tasks/ 📋
+│   │   │   └── main.yaml 📝
+│   │   └── handlers/ 🔄
+│   │       └── main.yaml (optional) 📝
+│   └── common/ 🔁                    # Shared logic for all roles
+│       ├── tasks/ 📋
+│       │   ├── appsetup.yaml 🛠️
+│       │   ├── maven.yaml ☕
+│       │   ├── python.yaml 🐍
+│       │   ├── systemd.yaml ⚙️
+│       │   └── ...
+│       └── handlers/ 🔄
+│           └── main.yaml (optional) 📝
+└── ...
+```
 
