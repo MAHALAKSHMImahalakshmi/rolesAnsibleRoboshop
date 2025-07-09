@@ -287,6 +287,26 @@ As I advanced in my DevOps path, I unlocked several powerful Ansible concepts th
 
 ✨ **These lessons, combined with my earlier mistake journey, have made my automation more modular, secure, and production-ready. Every new project benefits from these practical insights—and I hope sharing them helps you too!**
 
+🔎 **Real Mistakes & How I Solved Them:**
+
+- ❌ **YAML Structure Errors:** I put playbook-level keys (like `hosts:` and `vars:`) inside role task files, which made Ansible fail. 
+  - 🛠️ **Fix:** I moved those keys to the playbook and kept only tasks in the role files.
+
+- ❌ **Variable Scoping Issues:** Some services couldn't connect because variables (like `CATALOGUE_HOST`, `REDIS_HOST`) were missing or in the wrong place.
+  - 🗂️ **Fix:** I defined all service-specific variables in each role's `vars/main.yaml` and used them in templates.
+
+- ❌ **Service Connectivity Problems:** Services failed to start due to missing or wrong hostnames in systemd files.
+  - 📝 **Fix:** I used Jinja2 templates and Ansible variables to inject the correct hostnames, and tested each service separately.
+
+- ❌ **Handler Misuse:** I restarted services too often, causing downtime.
+  - 🔄 **Fix:** I set up handlers to restart only when configs changed, improving uptime.
+
+- ❌ **404s & Missing Files:** I got errors because files were missing or paths were wrong during deployment.
+  - 📁 **Fix:** I double-checked file paths, used `ansible.builtin.copy` and `template`, and ran `ansible-playbook --check` before real runs.
+
+- ❌ **Documentation Gaps:** My early docs were too technical and hard to follow.
+  - 📚 **Fix:** I added step-by-step guides, emojis, diagrams, and real-world flows to make everything beginner-friendly and interview-ready.
+
 - ❌ **Tags Not Working:** I tried to run only deployment tasks with tags, but nothing happened because I tagged only the include_role line, not the tasks themselves.
   - 🏷️ **Fix:** I learned to use import_role when I want tags to apply to all tasks, or to tag each task directly if using include_role.
 
@@ -299,6 +319,9 @@ As I advanced in my DevOps path, I unlocked several powerful Ansible concepts th
 - ❌ **Error Handling Oversights:** I forgot to use ignore_errors or didn't check task results, so my playbook stopped on predictable errors.
   - 🛡️ **Fix:** I used ignore_errors and registered outputs, then added when conditions to handle errors gracefully and keep the playbook running.
 
+✨ **Every mistake was a learning opportunity! Now my project is easier to use, more reliable, and much more fun to share.**
+
+---
 
 ## Credits 🙏
 - Inspired by Roboshop microservices architecture.
