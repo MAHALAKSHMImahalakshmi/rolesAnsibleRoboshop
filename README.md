@@ -38,7 +38,6 @@ If you want to understand exactly how to build, debug, and extend this project, 
 - **Microservices Architecture:** Each business function (cart, user, catalogue, shipping, payment, etc.) is a separate service, deployed and managed independently.
 - **Ansible Roles:** All automation is organized using Ansible roles, making the code modular, DRY (Don't Repeat Yourself), and easy to extend.
 - **Database Diversity:** Uses MongoDB (NoSQL), MySQL (relational), and Redis (in-memory) to match each service's needs.
-- **CI/CD Ready:** The structure supports automated, repeatable deployments—ideal for DevOps and cloud-native environments.
 - **Best Practices:** Variables, templates, handlers, and common roles are used for safe, efficient, and scalable automation.
 
 ---
