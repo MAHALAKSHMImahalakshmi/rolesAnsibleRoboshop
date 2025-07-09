@@ -65,12 +65,12 @@
     tasks_from: systemd.yaml
   
 
-- name: app setup
+- name: app setup deployment 
   tags:
   - deployment
   import_role:
     name: common
-    tasks_from: deployment
+    tasks_from: deployment.yaml 
 
 
 
