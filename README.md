@@ -63,12 +63,12 @@ If you want to understand exactly how to build, debug, and extend this project, 
 flowchart TD
     A["inventory.ini 🗒️"] --> B["main.yaml ▶️"]
     B --> C{"component variable 🧩"}
-    C --> D["roles/<component>/tasks/main.yaml 📋"]
+    C --> D["roles/*component*/tasks/main.yaml 📋"]
     D --> E["include_role: common/tasks/appsetup.yaml 🛠️"]
     D --> F["import_role: common/tasks/deployment.yaml 🏷️"]
-    D --> G["template: roles/<component>/templates/*.j2 🧩"]
-    D --> H["vars: roles/<component>/vars/main.yaml 🗃️"]
-    D --> I["handlers: roles/<component>/handlers/main.yaml 🔄"]
+    D --> G["template: roles/*component*/templates/*.j2 🧩"]
+    D --> H["vars: roles/*component*/vars/main.yaml 🗃️"]
+    D --> I["handlers: roles/*component*/handlers/main.yaml 🔄"]
     H --> L["SSM Parameter Store 🔐"]
     H --> M["Ansible Vault (legacy) 🗝️"]
     E --> J["handlers: roles/common/handlers/main.yaml 🔄"]
@@ -80,7 +80,8 @@ flowchart TD
     E -.-> E_TAG["Tags: deployment, setup, etc. 🏷️"]
     D -.-> D_TAG["Tags: deployment, setup, etc. 🏷️"]
 ```
-
+*component*
+- mongodb , mysql , rabbitmq ,redis , user , cart, catalogue , shipping , payment and frontend .
 
 ---
 
