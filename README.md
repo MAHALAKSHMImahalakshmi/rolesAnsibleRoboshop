@@ -57,7 +57,11 @@ If you want to understand exactly how to build, debug, and extend this project, 
 
 ---
 
-<pre> ### 🛠️ Updated Ansible Playbook Flow with Tags, Roles, and Secrets ```mermaid flowchart TD A[inventory.ini 🗒️] --> B[main.yaml ▶️] B --> C{component variable 🧩} C --> D[roles/&lt;component&gt;/tasks/main.yaml 📋] D --> E[include_role: common/tasks/appsetup.yaml 🛠️] D --> F[import_role: common/tasks/deployment.yaml 🏷️] D --> G[template: roles/&lt;component&gt;/templates/*.j2 🧩] D --> H[vars: roles/&lt;component&gt;/vars/main.yaml 🗃️] D --> I[handlers: roles/&lt;component&gt;/handlers/main.yaml 🔄] H --> L[SSM Parameter Store 🔐] H --> M[Ansible Vault (legacy) 🗝️] E --> J[handlers: roles/common/handlers/main.yaml 🔄] F --> J G --> I H --> G I --> K[Service Restarted if Needed 🚦] F -.-> F_Tag[Tags: deployment, setup, etc. 🏷️] E -.-> E_Tag[Tags: deployment, setup, etc. 🏷️] D -.-> D_Tag[Tags: deployment, setup, etc. 🏷️] ``` </pre>
+ ### 🛠️ Updated Ansible Playbook Flow with Tags, Roles, and Secrets
+  ```mermaid 
+  flowchart TD A[inventory.ini 🗒️] --> B[main.yaml ▶️] B --> C{component variable 🧩} C --> D[roles/&lt;component&gt;/tasks/main.yaml 📋] D --> E[include_role: common/tasks/appsetup.yaml 🛠️] D --> F[import_role: common/tasks/deployment.yaml 🏷️] D --> G[template: roles/&lt;component&gt;/templates/*.j2 🧩] D --> H[vars: roles/&lt;component&gt;/vars/main.yaml 🗃️] D --> I[handlers: roles/&lt;component&gt;/handlers/main.yaml 🔄] H --> L[SSM Parameter Store 🔐] H --> M[Ansible Vault (legacy) 🗝️] E --> J[handlers: roles/common/handlers/main.yaml 🔄] F --> J G --> I H --> G I --> K[Service Restarted if Needed 🚦] F -.-> F_Tag[Tags: deployment, setup, etc. 🏷️] E -.-> E_Tag[Tags: deployment, setup, etc. 🏷️] D -.-> D_Tag[Tags: deployment, setup, etc. 🏷️] 
+  ```
+  
 ---
 
 This structure ensures:
