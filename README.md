@@ -61,24 +61,36 @@ If you want to understand exactly how to build, debug, and extend this project, 
 
 ```mermaid
 flowchart TD
-    A["inventory.ini 🗒️"] --> B["main.yaml ▶️"]
+    A["inventory.ini 🗒️"] --> B["main.yaml ▶️"] 
     B --> C{"component variable 🧩"}
-    C --> D["roles/*component*/tasks/main.yaml 📋"]
+    C --> D["roles/<component>/tasks/main.yaml 📋"] 
+
     D --> E["include_role: common/tasks/appsetup.yaml 🛠️"]
     D --> F["import_role: common/tasks/deployment.yaml 🏷️"]
-    D --> G["template: roles/*component*/templates/*.j2 🧩"]
-    D --> H["vars: roles/*component*/vars/main.yaml 🗃️"]
-    D --> I["handlers: roles/*component*/handlers/main.yaml 🔄"]
-    H --> L["SSM Parameter Store 🔐"]
-    H --> M["Ansible Vault (legacy) 🗝️"]
+
+    D --> G["template: roles/<component>/templates/*.j2 🧩"]
+    D --> H["vars: roles/<component>/vars/main.yaml 🗃️"]
+    D --> I["handlers: roles/<component>/handlers/main.yaml 🔄"]
+
+    %% Variables influence Templates and Handlers
+    H --> G
+    H --> I
+    G --> I
+
+    %% Handlers restart services when notified
+    I --> K["Service Restarted if Needed 🚦"]
     E --> J["handlers: roles/common/handlers/main.yaml 🔄"]
     F --> J
-    G --> I
-    H --> G
-    I --> K["Service Restarted if Needed 🚦"]
+
+    %% Tags apply on role inclusion to support selective runs
     F -.-> F_TAG["Tags: deployment, setup, etc. 🏷️"]
     E -.-> E_TAG["Tags: deployment, setup, etc. 🏷️"]
     D -.-> D_TAG["Tags: deployment, setup, etc. 🏷️"]
+
+    %% Secrets accessed by vars/tasks
+    H --> L["SSM Parameter Store 🔐"]
+    H --> M["Ansible Vault (legacy) 🗝️"]
+
 ```
 *component*
 - mongodb , mysql , rabbitmq ,redis , user , cart, catalogue , shipping , payment and frontend .
