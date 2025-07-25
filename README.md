@@ -94,7 +94,18 @@ flowchart TD
 ```
 *component*
 - mongodb , mysql , rabbitmq ,redis , user , cart, catalogue , shipping , payment and frontend .
-
+*Explanation of the Flow:*
+- Inventory (inventory.ini): Defines hosts and groups.
+- Main Playbook (main.yaml): Runs with the component name as a variable.
+- Component Role Tasks: Selected role executes component-specific tasks.
+- Common Roles: Included or imported within the component tasks:
+- appsetup.yaml (included dynamically for setup helpers)
+- deployment.yaml (imported statically for deployment tasks, also tagged)
+- Templates: Jinja2 templates rendered with variables from vars/main.yaml.
+- Vars: Contains variables, key/secret lookups from AWS SSM or Vault.
+- Handlers: Handle service restarts, triggered when templates or tasks notify of changes.
+- Service Restarts: Are only done when necessary.
+- Tags: Applied on include_role and import_role for selective execution depending on playbook tags.
 ---
 
 This structure ensures:
