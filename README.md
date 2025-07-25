@@ -92,8 +92,9 @@ flowchart TD
     H --> M["Ansible Vault (legacy) 🗝️"]
 
 ```
-*component*
+*✨component🧰*
 - mongodb , mysql , rabbitmq ,redis , user , cart, catalogue , shipping , payment and frontend .
+  
 *Explanation of the Flow:*
 - **Inventory (inventory.ini)**: Defines hosts and groups.
 - **Main Playbook (main.yaml)**: Runs with the component name as a variable.
